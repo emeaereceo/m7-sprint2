@@ -1,4 +1,5 @@
 import { connectDB } from "./config/db.js";
+
 import { Lista } from "./models/Lista.js";
 import { Tablero } from "./models/Tablero.js";
 import { Tarjeta } from "./models/Tarjeta.js";
@@ -23,11 +24,11 @@ async function testCRUD() {
   console.log("======== Leer tablero ========");
 
   const tablero = await Tablero.findByPk(1, {
-    include: Lista,
+    include: { model: Lista },
   });
 
   console.log("Tablero con listas y tarjetas:");
-  // console.log(JSON.stringify(tablero.toJSON(), null, 2));
+  console.log(JSON.stringify(tablero.toJSON(), null, 2));
 
   console.log("======== Actualizar Tarjeta ========");
 
