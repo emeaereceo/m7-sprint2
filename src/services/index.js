@@ -31,7 +31,7 @@ export const createCard = async (
   status,
 
   autor,
-  taskId,
+  listId,
 ) => {
   await Tarjeta.create({
     title,
@@ -41,6 +41,6 @@ export const createCard = async (
     status,
 
     autor,
-    taskId,
+    listId,
   });
 };

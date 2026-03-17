@@ -1,8 +1,6 @@
 import { connectDB } from "./config/db.js";
 
-import { Lista } from "./models/Lista.js";
-import { Tablero } from "./models/Tablero.js";
-import { Tarjeta } from "./models/Tarjeta.js";
+import { Lista, Tablero, Tarjeta } from "./models/index.js";
 
 async function testCRUD() {
   await connectDB();
@@ -16,7 +14,7 @@ async function testCRUD() {
     description: "Esta es una nueva tarea",
     priority: "Feature",
     status: "Backlog",
-    taskId: lista.id,
+    listId: lista.id,
   });
 
   console.log("Tarea creada", nuevaTarjeta.title);
@@ -24,7 +22,10 @@ async function testCRUD() {
   console.log("======== Leer tablero ========");
 
   const tablero = await Tablero.findByPk(1, {
-    include: { model: Lista },
+    include: {
+      model: Lista,
+      include: Tarjeta,
+    },
   });
 
   console.log("Tablero con listas y tarjetas:");

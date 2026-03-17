@@ -21,10 +21,10 @@ Lista.belongsTo(Tablero, {
 });
 
 Lista.hasMany(Tarjeta, {
-  foreignKey: "taskId",
+  foreignKey: "listId",
 });
 Tarjeta.belongsTo(Lista, {
-  foreignKey: "taskId",
+  foreignKey: "listId",
 });
 
 export { Tablero, Usuario, Lista, Tarjeta };
