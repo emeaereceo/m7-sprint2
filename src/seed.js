@@ -13,41 +13,85 @@ async function seed() {
   console.log("Modelos creados");
 
   // Users
-  await createUser("Usuario1", "usuario1@correo.com", "123456", "admin");
-  await createUser("Usuario2", "usuario2@correo.com", "123456", "user");
+  const user1 = await createUser({
+    name: "Usuario1",
+    email: "usuario1@correo.com",
+    password: "123456",
+    role: "admin",
+  });
+
+  const user2 = await createUser({
+    name: "Usuario2",
+    email: "usuario2@correo.com",
+    password: "123456",
+    role: "user",
+  });
 
   // Tableros
-  await createBoard("Tablero 1", 2);
-  await createBoard("Tablero 2", 1);
-  await createBoard("Tablero 3", 2);
+  const board1 = await createBoard({
+    name: "Tablero 1",
+    userId: user2.id,
+  });
 
-  // Listas
-  await createList("ToDo", 1);
-  await createList("Doing", 1);
-  await createList("Done", 1);
-  await createList("Pendientes", 2);
+  const board2 = await createBoard({
+    name: "Tablero 2",
+    userId: user1.id,
+  });
 
-  // Tareas
-  await createCard(
-    "Tarea 1",
-    "Esta es una tarea de prueba",
-    "Task",
-    "Javascript",
-    "Backlog",
+  const board3 = await createBoard({
+    name: "Tablero 3",
+    userId: user2.id,
+  });
+  // LISTAS
+  const todoList = await createList({ name: "ToDo", boardId: board1.id });
+  const doingList = await createList({ name: "Doing", boardId: board1.id });
+  const doneList = await createList({ name: "Done", boardId: board1.id });
 
-    "yo",
-    1,
-  );
+  const pendientesList = await createList({
+    name: "Pendientes",
+    boardId: board2.id,
+  });
 
-  await createCard(
-    "Tarea 2",
-    "Esta es una tarea de prueba2",
-    "Task",
-    "Javascript",
-    "Backlog",
-    "yo",
-    2,
-  );
+  // TARJETAS (usando IDs reales 🔥)
+  await createCard({
+    title: "Tarea 1",
+    description: "Esta es una tarea de prueba",
+    priority: "Task",
+    tag: "Javascript",
+    status: "Backlog",
+    autor: "yo",
+    listId: todoList.id,
+  });
+
+  await createCard({
+    title: "Tarea 2",
+    description: "Esta es una tarea de prueba2",
+    priority: "Task",
+    tag: "Javascript",
+    status: "Doing",
+    autor: "yo",
+    listId: doingList.id,
+  });
+
+  await createCard({
+    title: "Deploy final",
+    description: "Subir proyecto a producción",
+    priority: "Feature",
+    tag: "DevOps",
+    status: "Done",
+    autor: "yo",
+    listId: doneList.id,
+  });
+
+  await createCard({
+    title: "Revisar bugs",
+    description: "Errores reportados por QA",
+    priority: "Bug",
+    tag: "Backend",
+    status: "Backlog",
+    autor: "QA",
+    listId: pendientesList.id,
+  });
 
   console.log("Datos de prueba insertados");
   process.exit();
